@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushi Vision</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            width: 250px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            font-size: 1.5em;
+        }
+        .btn {
+            padding: 12px 30px;
+            background: #fff;
+            border-radius: 25px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 20px 0;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #ddd;
+        }
+        footer {
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            font-size: 0.9em;
+        }
+        video, canvas {
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Khushi Vision</h1>
+        <p>Your Smart AI Visual Assistant</p>
+    </header>
+
+    <section class="features">
+        <div class="card">
+            <h2>AI Object Detection</h2>
+            <p>Identify and describe objects in real-time using advanced AI.</p>
+        </div>
+        <div class="card">
+            <h2>Voice Guidance</h2>
+            <p>Voice-enabled assistance for visually impaired users.</p>
+        </div>
+        <div class="card">
+            <h2>Mobile & Wearable Integration</h2>
+            <p>Seamless connectivity with smartphones and AR glasses.</p>
+        </div>
+    </section>
+
+    <button class="btn" onclick="startObjectDetection()">Start Object Detection</button>
+
+    <div>
+        <video id="video" width="400" height="300" autoplay muted></video>
+        <canvas id="canvas" width="400" height="300"></canvas>
+    </div>
+
+    <footer>
+        &copy; 2025 Khushi Vision. All Rights Reserved.
+    </footer>
+
+    <script>
+        let model;
+        let lastSpoken = {};
+
+        async function startObjectDetection() {
+            model = await cocoSsd.load();
+            const video = document.getElementById('video');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    detectFrame(video);
+                });
+        }
+
+        async function detectFrame(video) {
+            const predictions = await model.detect(video);
+            renderPredictions(predictions);
+            requestAnimationFrame(() => detectFrame(video));
+        }
+
+        function renderPredictions(predictions) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            predictions.forEach(prediction => {
+                ctx.strokeStyle = '#00FFFF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(...prediction.bbox);
+                ctx.fillStyle = '#00FFFF';
+                ctx.font = '16px sans-serif';
+                ctx.fillText(prediction.class, prediction.bbox[0], prediction.bbox[1] > 10 ? prediction.bbox[1] - 5 : 10);
+                speak(prediction.class);
+            });
+        }
+
+        function speak(text) {
+            if (!lastSpoken[text] || Date.now() - lastSpoken[text] > 5000) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+                lastSpoken[text] = Date.now();
+            }
+        }
+    </script>
+</body>
+</html>
