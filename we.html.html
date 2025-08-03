@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besinaus Photography</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            background: #0d0d0d;
+            color: #fff;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        nav a {
+            color: white;
+            padding: 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            font-size: 3rem;
+            letter-spacing: 3px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        Besinaus Cinematic Photography
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section class="hero">
+        Capturing Moments that Inspire
+    </section>
+
+    <section class="gallery" id="portfolio">
+        <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc" alt="Photo 1">
+        <img src="https://images.unsplash.com/photo-1504198266285-165a4dd58c4b" alt="Photo 2">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e" alt="Photo 3">
+        <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df" alt="Photo 4">
+        <img src="https://images.unsplash.com/photo-1499084732479-de2c02d45fc4" alt="Photo 5">
+        <img src="https://images.unsplash.com/photo-1500048993957-64a26b74fdbb" alt="Photo 6">
+    </section>
+
+    <section class="gallery" id="contact">
+        <h2 style="text-align: center; color: #ccc;">Get in Touch</h2>
+        <p style="text-align: center; color: #aaa;">Email: info@besinaus.com | Phone: +1 234 567 890</p>
+    </section>
+
+    <footer>
+        &copy; 2025 Besinaus. All rights reserved.
+    </footer>
+</body>
+
+</html>
